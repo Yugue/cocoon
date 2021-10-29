@@ -8,7 +8,6 @@ import 'package:conductor_ui/main.dart';
 import 'package:conductor_ui/widgets/conductor_status.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:provider/provider.dart';
 
 import '../src/services/fake_conductor.dart';
 
