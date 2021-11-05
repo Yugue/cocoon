@@ -4,7 +4,7 @@
 
 import '../state/status_state.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/src/provider.dart';
+import 'package:provider/provider.dart';
 
 import 'conductor_status.dart';
 import 'create_release_substeps.dart';
