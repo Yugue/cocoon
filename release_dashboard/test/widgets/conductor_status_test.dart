@@ -11,8 +11,6 @@ import 'package:flutter_test/flutter_test.dart';
 
 import '../src/services/fake_conductor.dart';
 
-import '../src/services/fake_conductor.dart';
-
 void main() {
   group('conductor_status, also tests StatusState', () {
     late pb.ConductorState state;
