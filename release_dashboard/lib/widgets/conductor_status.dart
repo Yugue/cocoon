@@ -54,7 +54,7 @@ class ConductorStatusState extends State<ConductorStatus> {
   @override
   Widget build(BuildContext context) {
     final Map<String, Object>? releaseStatus = context.watch<StatusState>().releaseStatus;
-    if (context.watch<StatusState>().releaseStatus == null) {
+    if (releaseStatus == null) {
       return const SelectableText('No persistent state file. Try starting a release.');
     }
 
@@ -70,7 +70,7 @@ class ConductorStatusState extends State<ConductorStatus> {
               TableRow(
                 children: <Widget>[
                   Text('$headerElement:'),
-                  SelectableText(statusElementToString(releaseStatus![headerElement])),
+                  SelectableText(statusElementToString(releaseStatus[headerElement])),
                 ],
               ),
           ],
@@ -80,7 +80,7 @@ class ConductorStatusState extends State<ConductorStatus> {
           children: <Widget>[
             Column(
               children: <Widget>[
-                RepoInfoExpansion(engineOrFramework: 'engine', releaseStatus: releaseStatus!),
+                RepoInfoExpansion(engineOrFramework: 'engine', releaseStatus: releaseStatus),
                 const SizedBox(height: 10.0),
                 CherrypickTable(engineOrFramework: 'engine', releaseStatus: releaseStatus),
               ],
