@@ -13,6 +13,7 @@ import 'services/dev_local_conductor.dart';
 import 'services/local_conductor.dart';
 import 'state/status_state.dart';
 import 'widgets/clean_release_button.dart';
+import 'widgets/common/switch_button.dart';
 import 'widgets/progression.dart';
 
 const String _title = 'Flutter Desktop Conductor (Not ready, do not use)';
@@ -29,7 +30,7 @@ Future<void> main() async {
   runApp(MyApp(isDev == true ? DevLocalConductorService() : LocalConductorService()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp(
     this.conductor, {
     Key? key,
@@ -38,7 +39,22 @@ class MyApp extends StatelessWidget {
   final ConductorService conductor;
 
   @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool forceStart = false;
+
+  void modifyforceStart(bool value) {
+    setState(() {
+      forceStart = value;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final ConductorService conductor = widget.conductor;
+
     return ChangeNotifierProvider(
       create: (context) => StatusState(conductor: conductor),
       child: MaterialApp(
@@ -49,6 +65,10 @@ class MyApp extends StatelessWidget {
             actions: [
               CleanReleaseButton(
                 conductor: conductor,
+              ),
+              SwitchButton(
+                value: forceStart,
+                modifyValue: modifyforceStart,
               ),
             ],
           ),
