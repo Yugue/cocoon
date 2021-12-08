@@ -38,8 +38,8 @@ class PublishTagSubstepsState extends State<PublishTagSubsteps> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                  'Release tag ${releaseStatus?[ConductorStatusEntry.releaseVersion]} is ready '
-                  'to be pushed to the remote repository.',
+                  'Release ${releaseStatus?[ConductorStatusEntry.releaseVersion]} is ready '
+                  'to be pushed to the remote ${releaseStatus?[ConductorStatusEntry.releaseChannel]} repository.',
                   style: Theme.of(context).textTheme.subtitle1),
               const SizedBox(height: 20.0),
               Text(
@@ -49,7 +49,7 @@ class PublishTagSubstepsState extends State<PublishTagSubsteps> {
               // TODO(Yugue): Add DialoguePrompt to confirm tag creation,
               // https://github.com/flutter/flutter/issues/94222.
               Text(
-                'Please verify if the tag and the channel are correct. The action below is disruptive and irreversible',
+                'Please verify if the release number and the channel are correct. The action below is disruptive and irreversible',
                 style: Theme.of(context).textTheme.subtitle1!.copyWith(color: Colors.red),
                 textAlign: TextAlign.center,
               ),

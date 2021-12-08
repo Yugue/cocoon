@@ -12,6 +12,7 @@ import '../models/repositories.dart';
 import '../services/conductor.dart';
 import '../state/status_state.dart';
 import 'common/checkbox_substep.dart';
+import 'common/dialog_prompt.dart';
 import 'common/url_button.dart';
 
 enum MergePrSubstep {
@@ -211,7 +212,24 @@ class MergePrSubstepsState extends State<MergePrSubsteps> {
           key: Key('merge${repositoryName(widget.repository, true)}CherrypicksSubstepsContinue'),
           onPressed: !isRequiredSubstepChecked.containsValue(false)
               ? () async {
-                  widget.nextStep();
+                  if (widget.repository == Repositories.engine) {
+                    widget.nextStep();
+                  } else {
+                    dialogPrompt(
+                      context: context,
+                      title: const Text("Are you sure you want to continue"),
+                      leftButtonTitle: 'No',
+                      rightButtonTitle: 'Yes',
+                      content: SelectableText(
+                        'Clicking on yes will create a release tag in the uptream. '
+                        'This action is disruptive and irreversible',
+                        style: Theme.of(context).textTheme.subtitle1!.copyWith(color: Colors.red),
+                      ),
+                      rightButtonCallback: () async {
+                        widget.nextStep();
+                      },
+                    );
+                  }
                 }
               : null,
           child: const Text('Continue'),

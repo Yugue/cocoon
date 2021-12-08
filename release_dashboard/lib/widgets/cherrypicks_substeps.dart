@@ -158,14 +158,7 @@ class CherrypicksSubstepsState extends State<CherrypicksSubsteps> {
             enabled: !_isEachSubstepChecked.containsValue(false),
             error: _error,
             onPressedCallback: () async {
-              setError(null);
-              statusState.conductor.conductorNext(context).catchError((error, stackTrace) {
-                setError(errorToString(error, stackTrace));
-              }).whenComplete(() {
-                if (_error == null) {
-                  widget.nextStep();
-                }
-              });
+              widget.nextStep();
             },
             isLoading: false),
       ],

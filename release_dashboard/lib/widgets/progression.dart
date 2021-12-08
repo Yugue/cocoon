@@ -34,14 +34,14 @@ class MainProgression extends StatefulWidget {
     'Codesign Engine Binaries',
     'Apply Framework Cherrypicks',
     'Merge the Framework PR',
-    'Publish the Version Tag',
+    'Publish the Release to the channel',
     'Push and Verify the Release',
     'Release is Completed',
   ];
 }
 
 class MainProgressionState extends State<MainProgression> {
-  int _completedStep = 0;
+  int _completedStep = 1;
 
   @override
   void initState() {
@@ -140,13 +140,13 @@ class MainProgressionState extends State<MainProgression> {
                 Step(
                   title: Text(MainProgression._stepTitles[6]),
                   content: PushReleaseSubsteps(nextStep: nextStep),
-                  isActive: true,
+                  isActive: _completedStep >= 6,
                   state: handleStepState(6),
                 ),
                 Step(
                   title: Text(MainProgression._stepTitles[7]),
                   content: const ReleaseCompleted(),
-                  isActive: true,
+                  isActive: _completedStep >= 7,
                   state: handleStepState(7),
                 ),
               ],

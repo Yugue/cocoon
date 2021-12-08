@@ -12,6 +12,7 @@ import '../logic/git.dart';
 import '../services/conductor.dart';
 import '../state/status_state.dart';
 import 'common/continue_button.dart';
+import 'common/dialog_prompt.dart';
 import 'common/tooltip.dart';
 
 /// The order of this enum decides which order the widgets in [CreateReleaseSubsteps] get rendered.
@@ -206,16 +207,32 @@ class CreateReleaseSubstepsState extends State<CreateReleaseSubsteps> {
           error: _error,
           enabled: !isEachInputValid.containsValue(false) && !_isLoading,
           onPressedCallback: () async {
-            setError(null);
-            setIsLoading(true);
-            runCreateRelease(conductor, context).catchError((error, stacktrace) {
-              setError(errorToString(error, stacktrace));
-            }).whenComplete(() {
-              setIsLoading(false);
-              if (_error == null) {
-                widget.nextStep();
-              }
-            });
+            dialogPrompt(
+              context: context,
+              title: const Text("Are you sure you want to continue"),
+              leftButtonTitle: 'No',
+              rightButtonTitle: 'Yes',
+              content: SelectableText(
+                'Clicking on yes will create a release tag in the uptream. '
+                'This action is disruptive and irreversible',
+                style: Theme.of(context).textTheme.subtitle1!.copyWith(color: Colors.red),
+              ),
+              rightButtonCallback: () async {
+                setError(null);
+                setIsLoading(true);
+                Navigator.pop(context, 'Yes');
+                try {
+                  await runCreateRelease(conductor, context);
+                } catch (error, stacktrace) {
+                  setError(errorToString(error, stacktrace));
+                } finally {
+                  setIsLoading(false);
+                }
+                if (_error == null) {
+                  widget.nextStep();
+                }
+              },
+            );
           },
           isLoading: _isLoading,
         ),
